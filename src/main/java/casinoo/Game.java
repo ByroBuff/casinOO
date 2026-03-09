@@ -9,7 +9,7 @@ public abstract class Game {
     private final int minPlayers;
     private final int maxPlayers;
     private final List<Player> players;
-    private GameState gameState;
+    protected GameState gameState;
 
     protected Game(String name, int minPlayers, int maxPlayers) {
         this.name = name;

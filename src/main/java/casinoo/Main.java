@@ -14,6 +14,8 @@ public class Main {
             System.out.println(player.toString());
         }
         System.out.println(roulette.toString());
+
+        roulette.startGame();
 	}
 }
 
