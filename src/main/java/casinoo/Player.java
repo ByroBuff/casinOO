@@ -22,6 +22,16 @@ public class Player {
         return chipValue;
     }
 
+    public boolean placeBet(int amount) {
+        if (amount <= 0 || amount > chipValue) return false;
+        chipValue -= amount;
+        return true;
+    }
+
+    public void payout(int amount) {
+        chipValue += amount;
+    }
+
     public boolean buyChips(int amount) {
         if (amount > this.bankAccount.getBalance() || amount < 1) {
             return false;
