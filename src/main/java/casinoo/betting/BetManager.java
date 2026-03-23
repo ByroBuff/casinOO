@@ -13,9 +13,15 @@ public class BetManager<OutcomeT> {
 
     public boolean placeBet(BetTicket ticket) {
         if (ticket.stake() <= 0) return false;
-        if (!ticket.player().placeBet(ticket.stake())) return false; // lock chips
+        if (!ticket.player().placeBet(ticket.stake())) return false; // check if player has enough chips
         openBets.add(ticket);
         return true;
+    }
+
+    public void printBets() {
+        for (BetTicket betTicket : openBets) {
+            System.out.println(betTicket.toString());
+        }
     }
 
     public void settle(OutcomeT outcome) {

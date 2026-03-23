@@ -38,6 +38,8 @@ public class Roulette extends Game {
             return;
         }
 
+        betManager.printBets();
+
         gameState = GameState.IN_PROGRESS;
         RouletteOutcome outcome = spin();
         System.out.println(outcome);
