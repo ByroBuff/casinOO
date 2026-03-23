@@ -14,10 +14,6 @@ public class Roulette extends Game {
     };
     private final BetManager<RouletteOutcome> betManager;
 
-    public Roulette() {
-        this(new BetManager<>(new RouletteBetResolver()));
-    }
-
     public Roulette(BetManager<RouletteOutcome> betManager) {
         super("Roulette", 1, 8);
         this.betManager = betManager;
