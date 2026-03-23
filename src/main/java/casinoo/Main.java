@@ -1,13 +1,15 @@
 package casinoo;
 
-import casinoo.game.roulette.AIs.RandomColorStrategy;
-import casinoo.game.roulette.Roulette;
+import casinoo.game.roulette.AIs.*;
+import casinoo.game.roulette.*;
+import casinoo.betting.*;
 
 public class Main {
 	public static void main(String[] args) {
         Player p1 = new Player("James", 10000);
         p1.buyChips(10000);
-        Roulette roulette = new Roulette();
+        BetManager<RouletteOutcome> rouletteBetManager = new BetManager<>(new RouletteBetResolver());
+        Roulette roulette = new Roulette(rouletteBetManager);
         roulette.addPlayer(p1);
 
         RandomColorStrategy randColorStrat = new RandomColorStrategy(10);

@@ -45,13 +45,13 @@ class CasinoBehaviorTest {
         player.buyChips(100);
 
         BetManager<RouletteOutcome> manager = new BetManager<>(new RouletteBetResolver());
-        BetTicket ticket = new BetTicket(player, 10, "COLOR", "RED");
+        BetTicket ticket = BetTicket.forColor(player, 10, "RED");
 
         assertTrue(manager.placeBet(ticket));
         assertTrue(manager.hasOpenBets());
         assertEquals(90, player.getChipValue());
 
-        manager.settle(new RouletteOutcome(3, RouletteColor.RED));
+        manager.settle(RouletteOutcome.of(3, RouletteColor.RED));
 
         assertEquals(110, player.getChipValue());
         assertFalse(manager.hasOpenBets());
@@ -75,10 +75,10 @@ class CasinoBehaviorTest {
     void rouletteBetResolverPaysOnlyOnExactNumberMatch() {
         RouletteBetResolver resolver = new RouletteBetResolver();
         Player player = new Player("Eve", 100);
-        BetTicket numberBet = new BetTicket(player, 5, "NUMBER", "17");
+        BetTicket numberBet = BetTicket.forNumber(player, 5, 17);
 
-        int winningPayout = resolver.payoutMultiplier(numberBet, new RouletteOutcome(17, RouletteColor.BLACK));
-        int losingPayout = resolver.payoutMultiplier(numberBet, new RouletteOutcome(16, RouletteColor.RED));
+        int winningPayout = resolver.payoutMultiplier(numberBet, RouletteOutcome.of(17, RouletteColor.BLACK));
+        int losingPayout = resolver.payoutMultiplier(numberBet, RouletteOutcome.of(16, RouletteColor.RED));
 
         assertEquals(36, winningPayout);
         assertEquals(0, losingPayout);
