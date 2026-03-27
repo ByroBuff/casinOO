@@ -16,6 +16,10 @@ public record BetTicket(
         return new BetTicket(player, stake, "NUMBER", Integer.toString(number));
     }
 
+    public static BetTicket forThird(Player player, int stake, int third) {
+        return new BetTicket(player, stake, "THIRD", Integer.toString(third));
+    }
+
     public String toString() {
         return String.format("BetTicket(player=%s, stake=%d, market=%s, selection=%s)",
                 player.getName(), stake, market, selection);

@@ -14,6 +14,10 @@ public class Roulette extends Game {
     };
     private final BetManager<RouletteOutcome> betManager;
 
+    public Roulette() {
+        this(new BetManager<>(new RouletteBetResolver()));
+    }
+
     public Roulette(BetManager<RouletteOutcome> betManager) {
         super("Roulette", 1, 8);
         this.betManager = betManager;
@@ -28,6 +32,12 @@ public class Roulette extends Game {
         if (!getPlayers().contains(player)) return false;
         if (number < 0 || number > 36) return false;
         return betManager.placeBet(BetTicket.forNumber(player, stake, number));
+    }
+
+    public boolean placeThirdBet(Player player, int third, int stake) {
+        if (!getPlayers().contains(player)) return false;
+        if (third < 1 || third > 3) return false;
+        return betManager.placeBet(BetTicket.forThird(player, stake, third));
     }
 
     @Override

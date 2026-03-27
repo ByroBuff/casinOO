@@ -13,6 +13,7 @@ public class RouletteBetResolver implements BetResolver<RouletteOutcome> {
         return switch (market) {
             case "COLOR" -> resolveColor(selection, outcome);
             case "NUMBER" -> resolveNumber(selection, outcome);
+            case "THIRD" -> resolveThird(selection, outcome);
             default -> 0;
         };
     }
@@ -29,6 +30,17 @@ public class RouletteBetResolver implements BetResolver<RouletteOutcome> {
         try {
             int picked = Integer.parseInt(selection);
             return picked == outcome.value() ? 36 : 0;
+        } catch (NumberFormatException ex) {
+            return 0;
+        }
+    }
+
+    private int resolveThird(String selection, RouletteOutcome outcome) {
+        try {
+            int third = Integer.parseInt(selection);
+            if (outcome.value() == 0) return 0; // 0 is not in any third
+            int outcomeThird = (outcome.value() - 1) / 12 + 1; // Map 1-12 to 1, 13-24 to 2, 25-36 to 3
+            return third == outcomeThird ? 3 : 0;
         } catch (NumberFormatException ex) {
             return 0;
         }

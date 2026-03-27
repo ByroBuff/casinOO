@@ -1,40 +1,70 @@
 package casinoo;
 
+import casinoo.ai.StrategyPlayer;
 import casinoo.game.roulette.AIs.*;
-import casinoo.game.roulette.*;
-import casinoo.betting.*;
+import casinoo.game.roulette.Roulette;
+
+import java.util.List;
+import java.util.Scanner;
 
 public class Main {
-	public static void main(String[] args) {
-        Player p1 = new Player("James", 10000);
-        p1.buyChips(10000);
-        BetManager<RouletteOutcome> rouletteBetManager = new BetManager<>(new RouletteBetResolver());
-        Roulette roulette = new Roulette(rouletteBetManager);
-        roulette.addPlayer(p1);
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Roulette roulette = new Roulette();
 
-        RandomColorStrategy randColorStrat = new RandomColorStrategy(10);
+        StrategyPlayer<Roulette> bot = new StrategyPlayer<>("James (AI)", 10_000, new RandomThirdStrategy());
+        bot.buyChips(10_000);
 
-        int initialBet = 100;
-        int currentBet = initialBet;
-        boolean lastRoundWon = true;
+         StrategyPlayer<Roulette> human = new StrategyPlayer<>("Alex (Human)", 10_000, new ManualRouletteStrategy());
+         human.buyChips(10_000);
 
-        for (int i = 0; i <= 100; i++) {
-            int balanceBeforeBet = p1.getChipValue();
-            roulette.placeColorBet(p1, "RED", currentBet);
-            roulette.startGame();
+        roulette.addPlayer(bot);
+         roulette.addPlayer(human);
 
-            if (p1.getChipValue() > balanceBeforeBet) {
-                // Win: reset to initial bet
-                currentBet = initialBet;
-                lastRoundWon = true;
-            } else {
-                // Loss: double the bet
-                currentBet *= 2;
-                lastRoundWon = false;
+        int totalRounds = readPositiveInt(scanner, "How many rounds do you want to play? ");
+
+        for (int round = 1; round <= totalRounds; round++) {
+            System.out.println();
+            System.out.println("=== Round " + round + " ===");
+
+            for (Player player : roulette.getPlayers()) {
+                if (player instanceof StrategyPlayer<?>) {
+                    @SuppressWarnings("unchecked")
+                    StrategyPlayer<Roulette> strategyPlayer = (StrategyPlayer<Roulette>) player;
+                    strategyPlayer.playTurn(roulette);
+                    continue;
+                }
+
+                System.out.println(player.getName() + " has no strategy and will skip this round.");
             }
 
-            System.out.println(p1);
+            roulette.startGame();
+            printRoundSummary(roulette.getPlayers());
         }
-	}
-}
 
+        System.out.println();
+        System.out.println("Final chip counts:");
+        printRoundSummary(roulette.getPlayers());
+    }
+
+    private static int readPositiveInt(Scanner scanner, String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String input = scanner.nextLine().trim();
+            try {
+                int value = Integer.parseInt(input);
+                if (value > 0) {
+                    return value;
+                }
+            } catch (NumberFormatException ignored) {
+            }
+            System.out.println("Please enter a positive integer.");
+        }
+    }
+
+    private static void printRoundSummary(List<Player> players) {
+        for (Player player : players) {
+            System.out.println(player.getName() + " -> chips: " + player.getChipValue());
+        }
+    }
+}
