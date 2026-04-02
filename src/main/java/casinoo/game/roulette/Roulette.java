@@ -40,6 +40,13 @@ public class Roulette extends Game {
         return betManager.placeBet(BetTicket.forThird(player, stake, third));
     }
 
+    public boolean placeOddEvenBet(Player player, int evenOrOdd, int stake)
+    {
+        if (!getPlayers().contains(player)) return false;
+        if (evenOrOdd < 1 || evenOrOdd > 2) return false;
+        return betManager.placeBet(BetTicket.forEvenOrOdd(player, stake, evenOrOdd));
+    }
+
     @Override
     public void startGame() {
         if (!betManager.hasOpenBets()) {

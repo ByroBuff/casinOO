@@ -20,6 +20,12 @@ public record BetTicket(
         return new BetTicket(player, stake, "THIRD", Integer.toString(third));
     }
 
+    public static BetTicket forEvenOrOdd(Player player, int stake, int evenOrOdd) {
+        return new BetTicket(player, stake, "EVENORODD", Integer.toString(evenOrOdd));
+    }
+
+
+
     public String toString() {
         return String.format("BetTicket(player=%s, stake=%d, market=%s, selection=%s)",
                 player.getName(), stake, market, selection);

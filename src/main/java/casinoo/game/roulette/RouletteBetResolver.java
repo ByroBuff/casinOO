@@ -45,4 +45,16 @@ public class RouletteBetResolver implements BetResolver<RouletteOutcome> {
             return 0;
         }
     }
+
+    private int resolveEvenOdd(String selection, RouletteOutcome outcome)
+    {
+        try {
+            int evenOrOdd = Integer.parseInt(selection);
+            if (outcome.value() == 0) return 0; // 0 is not even or odd
+            int outcomeEvenOdd = outcome.value()%2 + 1; // Map evens to 1, odds to 2
+            return evenOrOdd == outcomeEvenOdd ? 2 : 0;
+        } catch (NumberFormatException ex){
+            return 0;
+        }
+    }
 }
