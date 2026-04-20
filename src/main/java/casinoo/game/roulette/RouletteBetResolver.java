@@ -14,6 +14,7 @@ public class RouletteBetResolver implements BetResolver<RouletteOutcome> {
             case "COLOR" -> resolveColor(selection, outcome);
             case "NUMBER" -> resolveNumber(selection, outcome);
             case "THIRD" -> resolveThird(selection, outcome);
+            case "EVENORODD" -> resolveEvenOdd(selection, outcome);
             default -> 0;
         };
     }
@@ -46,14 +47,13 @@ public class RouletteBetResolver implements BetResolver<RouletteOutcome> {
         }
     }
 
-    private int resolveEvenOdd(String selection, RouletteOutcome outcome)
-    {
+    private int resolveEvenOdd(String selection, RouletteOutcome outcome) {
         try {
             int evenOrOdd = Integer.parseInt(selection);
             if (outcome.value() == 0) return 0; // 0 is not even or odd
-            int outcomeEvenOdd = outcome.value()%2 + 1; // Map evens to 1, odds to 2
+            int outcomeEvenOdd = outcome.value() % 2 + 1; // Map evens to 1, odds to 2
             return evenOrOdd == outcomeEvenOdd ? 2 : 0;
-        } catch (NumberFormatException ex){
+        } catch (NumberFormatException ex) {
             return 0;
         }
     }

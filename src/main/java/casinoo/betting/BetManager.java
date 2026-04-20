@@ -37,4 +37,8 @@ public class BetManager<OutcomeT> {
     public boolean hasOpenBets() {
         return !openBets.isEmpty();
     }
+
+    public List<BetTicket> getOpenBets() {
+        return List.copyOf(openBets);
+    }
 }
