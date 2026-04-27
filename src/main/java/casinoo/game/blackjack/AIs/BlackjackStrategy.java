@@ -7,8 +7,7 @@ import casinoo.game.blackjack.BlackjackHand;
 import casinoo.game.cards.PlayingCard;
 
 public interface BlackjackStrategy extends GameStrategy<Blackjack> {
-	// pattern: Template Method
-	// Provides a default implementation of the hit/stand decision; concrete strategies can override.
+	// pattern: Template
 	default boolean shouldHit(Blackjack game, Player player, BlackjackHand playerHand, PlayingCard dealerUpCard) {
 		return playerHand.value() < 17;
 	}
