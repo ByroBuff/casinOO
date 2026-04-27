@@ -46,4 +46,12 @@ public class Player {
         this.bankAccount.deposit(this.chipValue);
         this.chipValue = 0;
     }
+
+    /**
+     * Returns true when the player is an automated (AI) player.
+     * Default is false; AIPlayer overrides this.
+     */
+    public boolean isAutomated() {
+        return false;
+    }
 }

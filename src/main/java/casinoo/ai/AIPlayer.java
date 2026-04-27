@@ -6,4 +6,9 @@ public class AIPlayer<GameT extends Game> extends StrategyPlayer<GameT> {
     public AIPlayer(String name, int initialBalance, GameStrategy<GameT> strategy) {
         super(name, initialBalance, strategy);
     }
+
+    @Override
+    public boolean isAutomated() {
+        return true;
+    }
 }

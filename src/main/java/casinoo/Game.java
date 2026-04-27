@@ -3,6 +3,7 @@ package casinoo;
 import java.util.ArrayList;
 import java.util.List;
 
+// pattern: State
 public abstract class Game {
 
     private final String name;
